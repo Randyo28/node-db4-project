@@ -2,13 +2,14 @@ exports.up = function (knex) {
   return knex.schema
     .createTable('recipes', (tbl) => {
       tbl.increments('recipe_id')
-      tbl.text('recipe_name', 128).notNullable()
+      tbl.text('recipe_name', 128).notNullable().unique()
       tbl.timestamp('created_at').defaultTo(knex.fn.now())
     })
 
     .createTable('ingredients', (tbl) => {
       tbl.increments('ingredient_id')
-      tbl.text('ingredient_name', 128).notNullable()
+      tbl.text('ingredient_name', 128).notNullable().unique()
+      tbl.text('ingredient_unit', 50)
     })
 
     .createTable('steps', (tbl) => {
@@ -25,7 +26,7 @@ exports.up = function (knex) {
     })
 
     .createTable('step_ingredients', (tbl) => {
-      tbl.increments('step_ingred_id')
+      tbl.increments('step_ingredients_id')
       tbl.integer('quantity')
       tbl
         .integer('ingredient_id')
